@@ -2,8 +2,8 @@ pipeline {
     agent any  
 
     environment {  
-        ENV_EXPRESS = credentials('.env-express')  
-        ENV_NEST = credentials('.env-nest')  
+        ENV_EXPRESS = credentials('env-express')  
+        ENV_NEST = credentials('env-nest')  
         VITE_API_EXPRESS = 'http://localhost:3000/'  
         VITE_API_NESTJS = 'http://localhost:3001/'  
         DATABASE_URL = 'postgresql://postgres:admin@localhost:5432/order'  
