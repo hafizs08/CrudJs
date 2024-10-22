@@ -2,7 +2,7 @@ pipeline {
     agent any  
 
     environment {  
-        ENV_EXPRESS = credentials('env-express')  
+        ENV_EXPRESS = credentials('express-env')  
         ENV_NEST = credentials('env-nest')  
         VITE_API_EXPRESS = 'http://localhost:3000/'  
         VITE_API_NESTJS = 'http://localhost:3001/'  
