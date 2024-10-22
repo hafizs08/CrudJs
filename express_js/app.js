@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
-const app = express();
 const cors = require('cors');
 const customersRouter = require('./routes/customers');
 const foodsRouter = require('./routes/foods');
 const transactionsRouter = require('./routes/transactions');
+
+const app = express();
 
 // Enable CORS for all routes
 app.use(cors());
