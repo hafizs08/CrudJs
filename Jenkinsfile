@@ -77,11 +77,7 @@ pipeline {
                 stage('Launch Express Server') {  
                     steps {  
                         dir('express_js') {  
-                            bat 'pm2 start npm --name "express" -- run dev'
-                        }  
-                        script {  
-                            def envContent = readFile('express_js/.env')  
-                            echo "Express configuration: ${envContent}"  
+                            bat 'node app.js'
                         }  
                     }  
                 }  
@@ -89,11 +85,7 @@ pipeline {
                 stage('Launch NestJS Server') {  
                     steps {  
                         dir('nest_js') {  
-                            bat 'pm2 start npm --name "nestjs" -- run start:dev'
-                        }  
-                        script {  
-                            def envContent = readFile('nest_js/.env')  
-                            echo "NestJS configuration: ${envContent}"  
+                            bat 'npm run start'  // Adjust this to the entry point of your NestJS app
                         }  
                     }  
                 }  
@@ -101,7 +93,7 @@ pipeline {
                 stage('Launch React App') {  
                     steps {  
                         dir('frontEnd') {  
-                            bat 'pm2 start npm --name "react" -- run dev'
+                            bat 'npm run dev'
                         }  
                     }  
                 }  
