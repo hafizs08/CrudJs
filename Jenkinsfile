@@ -34,7 +34,12 @@ pipeline {
                 stage('Express Backend Setup') {  
                     steps {  
                         dir('express_js') {  
-                            bat 'npm ci'  
+                            script {
+                                if (!fileExists('package-lock.json')) {
+                                    bat 'npm install'
+                                }
+                                bat 'npm ci'  
+                            }
                         }  
                     }  
                 }  
@@ -42,27 +47,37 @@ pipeline {
                 stage('Nest Backend Setup') {  
                     steps {  
                         dir('nest_js') {  
-                            bat 'npm ci'  
+                            script {
+                                if (!fileExists('package-lock.json')) {
+                                    bat 'npm install'
+                                }
+                                bat 'npm ci'  
+                            }
                         }  
                     }  
                 }  
 
                 stage('React Frontend Setup') {  
                     steps {  
-                        dir('react-js') {  
-                            bat 'npm ci'  
+                        dir('frontEnd') {  
+                            script {
+                                if (!fileExists('package-lock.json')) {
+                                    bat 'npm install'
+                                }
+                                bat 'npm ci'  
+                            }
                         }  
                     }  
                 }  
             }  
-        }  
+        }
 
         stage('Application Deployment') {  
             parallel {  
                 stage('Launch Express Server') {  
                     steps {  
                         dir('express_js') {  
-                            bat 'start /B npm run dev'  // Bisa diganti dengan PM2
+                            bat 'pm2 start npm --name "express" -- run dev'
                         }  
                         script {  
                             def envContent = readFile('express_js/.env')  
@@ -74,7 +89,7 @@ pipeline {
                 stage('Launch NestJS Server') {  
                     steps {  
                         dir('nest_js') {  
-                            bat 'start /B npm run start:dev'  // Bisa diganti dengan PM2
+                            bat 'pm2 start npm --name "nestjs" -- run start:dev'
                         }  
                         script {  
                             def envContent = readFile('nest_js/.env')  
@@ -85,8 +100,8 @@ pipeline {
 
                 stage('Launch React App') {  
                     steps {  
-                        dir('react-js') {  
-                            bat 'start /B npm run dev'  // Bisa diganti dengan PM2
+                        dir('frontEnd') {  
+                            bat 'pm2 start npm --name "react" -- run dev'
                         }  
                     }  
                 }  
